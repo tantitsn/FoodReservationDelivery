@@ -34,7 +34,7 @@ public class KategoriAdapter extends ArrayAdapter<KategoriItem>{
         this.mContext= mContext;
         this.mGridData = mGridData;
     }
-    public void setmGridData(ArrayList<KategoriItem> mGridData)
+    public void setGridData(ArrayList<KategoriItem> mGridData)
     {
         this.mGridData = mGridData;
         notifyDataSetChanged();
