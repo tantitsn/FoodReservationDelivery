@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -15,10 +16,10 @@ import com.example.tugasbesar.foodreservationdelivery.adapter.KategoriAdapter;
 import com.example.tugasbesar.foodreservationdelivery.api.JSONKategori;
 import com.example.tugasbesar.foodreservationdelivery.configs.InternetConnection;
 import com.example.tugasbesar.foodreservationdelivery.configs.Konfigurasi;
+import com.example.tugasbesar.foodreservationdelivery.configs.SessionManagement;
 import com.example.tugasbesar.foodreservationdelivery.interfaces.KategoriAPI;
 import com.example.tugasbesar.foodreservationdelivery.models.KategoriItem;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,12 +42,16 @@ public class KategoriActivity extends AppCompatActivity {
     private KategoriAdapter adapter;
     private ArrayList<KategoriItem> mGridData;
 
+    SessionManagement session;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_kategori);
         ButterKnife.bind(this);
+        session = new SessionManagement(getApplicationContext());
+        session.checkLogin();
+
         if(Build.VERSION.SDK_INT>9) {
             StrictMode.ThreadPolicy policy= new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -95,5 +100,11 @@ public class KategoriActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+
     }
 }

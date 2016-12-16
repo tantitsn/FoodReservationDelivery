@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.example.tugasbesar.foodreservationdelivery.MainActivity;
+import com.example.tugasbesar.foodreservationdelivery.LoginActivity;
 
 import java.util.HashMap;
-
-import rabbani.it.banibatuta.MainActivity;
 
 /**
  * Created by nelitaaas on 17/10/16.
