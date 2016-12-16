@@ -8,7 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -62,6 +65,14 @@ public class KategoriActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                KategoriItem item = (KategoriItem) parent.getItemAtPosition(position);
+
+                Toast.makeText(KategoriActivity.this, item.getNama_kategori(), Toast.LENGTH_SHORT).show();
+            }
+        });
         loadJSON();
 
     }
@@ -78,6 +89,7 @@ public class KategoriActivity extends AppCompatActivity {
             call.enqueue(new Callback<JSONKategori>() {
                 @Override
                 public void onResponse(Call<JSONKategori> call, Response<JSONKategori> response) {
+                    Log.e("Response: ", response.body().toString());
                     if(response.isSuccessful())
                     {
                         JSONKategori jsonKategori= response.body();

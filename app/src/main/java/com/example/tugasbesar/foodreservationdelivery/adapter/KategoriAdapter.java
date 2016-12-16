@@ -2,9 +2,6 @@ package com.example.tugasbesar.foodreservationdelivery.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.view.LayoutInflaterFactory;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import com.example.tugasbesar.foodreservationdelivery.R;
 import com.example.tugasbesar.foodreservationdelivery.models.KategoriItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tanti on 12/12/16.
@@ -51,22 +47,21 @@ public class KategoriAdapter extends ArrayAdapter<KategoriItem>{
             holder = new ViewHolder();
             holder.titleTextView= (TextView) row.findViewById(R.id.grid_item_title);
             holder.imageView= (ImageView) row.findViewById(R.id.grid_item_image);
-
+            row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
 
         KategoriItem item = mGridData.get(position);
-        holder.titleTextView.setText(Html.fromHtml(item.getNama_kategori()));
+        holder.titleTextView.setText(item.getNama_kategori());
 
         Glide.with(mContext).
                 load(item.getGambar_kategori()).
                 placeholder(R.drawable.ic_loading).
+                error(R.drawable.ic_loading).
                 into(holder.imageView);
 
         return row;
-
-
     }
 
 

@@ -73,9 +73,9 @@ public class MenuActivity extends AppCompatActivity {
     private void loadJSON() {
         if(InternetConnection.checkConnection(getApplicationContext())){
 
-            String id_kategori = getIntent().getStringExtra("id");
+            String id_kategori = getIntent().getStringExtra("id_kategori");
             Map<String, String> datas = new HashMap<>();
-            datas.put("id_kategoti", id_kategori);
+            datas.put("id_kategori", id_kategori);
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Konfigurasi.URL)
