@@ -2,23 +2,19 @@ package com.example.tugasbesar.foodreservationdelivery.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.tugasbesar.foodreservationdelivery.MenuActivity;
 import com.example.tugasbesar.foodreservationdelivery.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by uber on 12/12/16.
@@ -54,12 +50,13 @@ public class MenuItemAdapter extends ArrayAdapter<com.example.tugasbesar.foodres
             holder.titleTextNama = (TextView) row.findViewById(R.id.grid_item_title);
             holder.txtHarga=(TextView) row.findViewById(R.id.grid_item_harga);
             holder.imageMenu=(ImageView) row.findViewById(R.id.grid_item_image);
+            holder.parent = (LinearLayout) row.findViewById(R.id.parent);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
 
-        com.example.tugasbesar.foodreservationdelivery.models.MenuItem item = (com.example.tugasbesar.foodreservationdelivery.models.MenuItem) mGridData.get(position);
+        com.example.tugasbesar.foodreservationdelivery.models.MenuItem item = mGridData.get(position);
         holder.titleTextNama.setText(Html.fromHtml(item.getNama_produk()));
         holder.txtHarga.setText(Html.fromHtml(item.getHarga_produk()));
 
@@ -71,6 +68,7 @@ public class MenuItemAdapter extends ArrayAdapter<com.example.tugasbesar.foodres
     }
 
     static class ViewHolder{
+        LinearLayout parent;
         TextView titleTextNama, txtHarga;
         ImageView imageMenu;
     }

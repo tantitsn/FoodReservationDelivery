@@ -7,10 +7,9 @@ import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuAdapter;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +59,14 @@ public class MenuActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         }
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MenuItem item = (MenuItem) parent.getItemAtPosition(position);
+                Toast.makeText(MenuActivity.this, item.getNama_produk(), Toast.LENGTH_SHORT).show();
+            }
+        });
         loadJSON();
     }
 
