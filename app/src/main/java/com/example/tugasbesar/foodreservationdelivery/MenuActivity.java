@@ -1,6 +1,9 @@
 package com.example.tugasbesar.foodreservationdelivery;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,8 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tugasbesar.foodreservationdelivery.adapter.MenuItemAdapter;
@@ -42,9 +51,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MenuActivity extends AppCompatActivity {
     @BindView(R.id.grid) GridView mGridView;
     @BindView(R.id.parent) CoordinatorLayout _parent;
+    @BindView(R.id.id_produk) TextView id_produk;
     private ProgressDialog pDialog;
     private MenuItemAdapter adapter;
     private ArrayList<MenuItem> mGridData;
+    private Spinner spQty;
+    private Button btBeli, btBatal;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,15 +74,31 @@ public class MenuActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         }
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MenuItem item = (MenuItem) parent.getItemAtPosition(position);
+                id_produk.setText(item.getId_produk());
+                showDialogs();
+
+            }
+        });
+
         loadJSON();
+    }
+
+    private void showDialogs() {
+        AlertDialog dialog = new DialogQty(MenuActivity.this);
+        dialog.show();
     }
 
     private void loadJSON() {
         if(InternetConnection.checkConnection(getApplicationContext())){
 
-            String id_kategori = getIntent().getStringExtra("id");
+            String id_kategori = getIntent().getStringExtra("id_kategori");
             Map<String, String> datas = new HashMap<>();
-            datas.put("id_kategoti", id_kategori);
+            datas.put("id_kategori", id_kategori);
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Konfigurasi.URL)
@@ -101,6 +130,41 @@ public class MenuActivity extends AppCompatActivity {
             });
         }else{
             Toast.makeText(MenuActivity.this, "Kesalahan Jaringan!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class DialogQty extends AlertDialog {
+        public DialogQty(Context context) {
+            super(context);
+
+            setTitle("Jumlah Pemesanan");
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = inflater.inflate(R.layout.dialog_beli, null);
+            setView(v);
+
+            spQty = (Spinner) v.findViewById(R.id.spQty);
+            btBeli = (Button) v.findViewById(R.id.btbeli);
+            btBatal = (Button) v.findViewById(R.id.btbatal);
+
+            ArrayList<String> list;
+            list = new ArrayList<>();
+            list.add("--pilih--");
+            for (int i = 1; i <= 10; i++){
+                list.add(String.valueOf(i));
+            }
+
+            ArrayAdapter<String> qtyAdapter = new ArrayAdapter<>(getApplication(),
+                    R.layout.spinner_item, list);
+            assert spQty != null;
+            spQty.setAdapter(qtyAdapter);
+            spQty.setSelection(0);
+
+            btBatal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
         }
     }
 }
