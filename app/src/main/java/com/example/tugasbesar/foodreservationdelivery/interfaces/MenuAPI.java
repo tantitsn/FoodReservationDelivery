@@ -15,7 +15,7 @@ import retrofit2.http.QueryMap;
 
 public interface MenuAPI {
     @Headers("Cache-Control: no-cache")
-    @GET("fdr/API/get_produkKategori.php")
+    @GET("fdr/API/get_produk_kategori.php")
     Call<JSONMenu> getMenu(
             @QueryMap Map<String, String> options
             );

@@ -3,7 +3,6 @@ package com.example.tugasbesar.foodreservationdelivery;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;

@@ -1,6 +1,7 @@
 package com.example.tugasbesar.foodreservationdelivery;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -69,8 +70,9 @@ public class KategoriActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KategoriItem item = (KategoriItem) parent.getItemAtPosition(position);
-
-                Toast.makeText(KategoriActivity.this, item.getNama_kategori(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(KategoriActivity.this, MenuActivity.class);
+                i.putExtra("id_kategori", item.getId_kategori());
+                startActivity(i);
             }
         });
         loadJSON();
