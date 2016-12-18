@@ -132,6 +132,8 @@ public class MenuActivity extends AppCompatActivity {
         public DialogQty(Context context) {
             super(context);
 
+            final String idproduk = id_produk.getText().toString();
+
             setTitle("Jumlah Pemesanan");
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.dialog_beli, null);
@@ -153,11 +155,18 @@ public class MenuActivity extends AppCompatActivity {
             assert spQty != null;
             spQty.setAdapter(qtyAdapter);
             spQty.setSelection(0);
+            final int qty = Integer.parseInt(spQty.getSelectedItem().toString());
 
             btBatal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dismiss();
+                }
+            });
+            btBeli.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MenuActivity.this, idproduk + "-" + qty, Toast.LENGTH_SHORT).show();
                 }
             });
         }
