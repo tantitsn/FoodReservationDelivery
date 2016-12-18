@@ -17,10 +17,9 @@
     <TextView
         android:id="@+id/grid_item_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:maxLength="10"
         android:textStyle="bold"
         android:maxLines="2"
         android:ellipsize="marquee"
@@ -29,9 +28,10 @@
     <TextView
         android:id="@+id/grid_item_harga"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
+        android:textColor="@color/red"
         android:maxLength="10"
         android:textStyle="bold"
         android:ellipsize="marquee"

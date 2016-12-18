@@ -1,5 +1,6 @@
 package com.example.tugasbesar.foodreservationdelivery.interfaces;
 
+import com.example.tugasbesar.foodreservationdelivery.api.JSONCart;
 import com.example.tugasbesar.foodreservationdelivery.api.JSONMenu;
 
 import java.util.Map;
@@ -19,4 +20,10 @@ public interface MenuAPI {
     Call<JSONMenu> getMenu(
             @QueryMap Map<String, String> options
             );
+
+    @Headers("Cache-Control: no-cache")
+    @GET("fdr/API/get_cart.php")
+    Call<JSONCart> getCart(
+            @QueryMap Map<String, String> options
+    );
 }

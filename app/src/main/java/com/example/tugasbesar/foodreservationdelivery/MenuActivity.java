@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -24,9 +25,14 @@ import com.example.tugasbesar.foodreservationdelivery.adapter.MenuItemAdapter;
 import com.example.tugasbesar.foodreservationdelivery.api.JSONMenu;
 import com.example.tugasbesar.foodreservationdelivery.configs.InternetConnection;
 import com.example.tugasbesar.foodreservationdelivery.configs.Konfigurasi;
+import com.example.tugasbesar.foodreservationdelivery.configs.SessionManagement;
 import com.example.tugasbesar.foodreservationdelivery.interfaces.MenuAPI;
 import com.example.tugasbesar.foodreservationdelivery.models.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +40,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +63,9 @@ public class MenuActivity extends AppCompatActivity {
     private ArrayList<MenuItem> mGridData;
     private Spinner spQty;
     private Button btBeli, btBatal;
+    private SessionManagement session;
+    okhttp3.Response response;
+    private final OkHttpClient client = new OkHttpClient();
 
 
     @Override
@@ -61,6 +74,8 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.list_menu);
         ButterKnife.bind(this);
 
+        session = new SessionManagement(getApplicationContext());
+
         if (Build.VERSION.SDK_INT > 9){
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -68,7 +83,7 @@ public class MenuActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
-            getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -155,7 +170,6 @@ public class MenuActivity extends AppCompatActivity {
             assert spQty != null;
             spQty.setAdapter(qtyAdapter);
             spQty.setSelection(0);
-            final int qty = Integer.parseInt(spQty.getSelectedItem().toString());
 
             btBatal.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,9 +180,48 @@ public class MenuActivity extends AppCompatActivity {
             btBeli.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MenuActivity.this, idproduk + "-" + qty, Toast.LENGTH_SHORT).show();
+                    String qty = spQty.getSelectedItem().toString();
+                    HashMap<String, String> user = session.getUserDetails();
+                    String meja = user.get(SessionManagement.KEY_MEJA);
+                    saveTemporary(idproduk, qty, meja);
+                    dismiss();
                 }
             });
         }
+    }
+
+    private void saveTemporary(String idproduk, String qty, String meja) {
+       if(InternetConnection.checkConnection(getApplicationContext()))
+       {
+           RequestBody requestBody = new FormBody.Builder()
+                   .add("id_produk", idproduk)
+                   .add("qty",qty)
+                   .add("id_meja",meja)
+                   .build();
+           Request request = new Request.Builder()
+                   .url(Konfigurasi.SAVE_TEMPORARY)
+                   .post(requestBody)
+                   .build();
+           try{
+            response = client.newCall(request).execute();
+               String respon = response.body().string();
+               JSONObject jsonObject = new JSONObject(respon);
+               int sukses = jsonObject.getInt(Konfigurasi.TAG_SUKSES);
+               if(sukses == 1){
+                   Toast.makeText(this,"Data Berhasil Disimpan ke Temp", Toast.LENGTH_LONG).show();
+
+               }else{
+                   Snackbar.make(_parent,"Oooops ! Data Gagal Disimpan.", Snackbar.LENGTH_LONG).show();
+               }
+
+
+
+           } catch (IOException | JSONException e) {
+               e.printStackTrace();
+           }
+       }else{
+           Snackbar.make(_parent,"Oooops ! Terjadi Kesalahan.", Snackbar.LENGTH_LONG).show();
+       }
+
     }
 }

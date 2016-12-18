@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FoodReservationDelivery</string>
+    <string name="pemesanan">Pemesanan</string>
+    <string name="menu">Pilih Menu</string>
+    <string name="kategori">Kategori Menu</string>
+    <string name="frsv">Food Reservation</string>
 </resources>

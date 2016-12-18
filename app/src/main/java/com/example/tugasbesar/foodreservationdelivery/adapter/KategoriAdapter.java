@@ -57,8 +57,8 @@ public class KategoriAdapter extends ArrayAdapter<KategoriItem>{
 
         Glide.with(mContext).
                 load(item.getGambar_kategori()).
-                placeholder(R.drawable.ic_loading).
-                error(R.drawable.ic_loading).
+                placeholder(R.drawable.img_loading).
+                error(R.drawable.img_loading).
                 into(holder.imageView);
 
         return row;

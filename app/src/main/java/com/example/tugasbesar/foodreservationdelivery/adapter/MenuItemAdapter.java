@@ -57,12 +57,16 @@ public class MenuItemAdapter extends ArrayAdapter<com.example.tugasbesar.foodres
         }
 
         com.example.tugasbesar.foodreservationdelivery.models.MenuItem item = mGridData.get(position);
-        holder.titleTextNama.setText(Html.fromHtml(item.getNama_produk()));
-        holder.txtHarga.setText(Html.fromHtml(item.getHarga_produk()));
+        if(item.getNama_produk().length() < 20) {
+            holder.titleTextNama.setText(Html.fromHtml(item.getNama_produk() + "\n"));
+        }else{
+            holder.titleTextNama.setText(Html.fromHtml(item.getNama_produk()));
+        }
+        holder.txtHarga.setText("Rp. " + Html.fromHtml(item.getHarga_produk()));
 
         Glide.with(mContext).
                 load(item.getGambar_produk()).
-                placeholder(R.drawable.ic_loading).
+                placeholder(R.drawable.img_loading).
                 into(holder.imageMenu);
         return row;
     }
