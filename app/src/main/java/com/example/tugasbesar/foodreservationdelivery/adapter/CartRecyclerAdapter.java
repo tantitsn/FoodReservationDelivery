@@ -69,6 +69,12 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<CartRecyclerAdapte
         customViewHolder.txtHarga.setText("Rp. " + Html.fromHtml(cartItem.getHarga_produk()));
         customViewHolder.txtQty.setText("x " + Html.fromHtml(cartItem.getQty()));
         customViewHolder.txtSubTotal.setText("Rp. " + Html.fromHtml(cartItem.getSubtotal()));
+
+        if(cartItem.getStatus().equals("1")){
+            customViewHolder.imgHapus.setVisibility(View.INVISIBLE);
+        }else {
+            customViewHolder.imgHapus.setVisibility(View.VISIBLE);
+        }
         customViewHolder.imgHapus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

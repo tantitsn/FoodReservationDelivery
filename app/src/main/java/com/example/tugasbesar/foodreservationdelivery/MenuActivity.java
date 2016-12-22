@@ -3,6 +3,7 @@ package com.example.tugasbesar.foodreservationdelivery;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -12,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -160,7 +162,7 @@ public class MenuActivity extends AppCompatActivity {
 
             ArrayList<String> list;
             list = new ArrayList<>();
-            list.add("--pilih--");
+            list.add("-- Pilih --");
             for (int i = 1; i <= 10; i++){
                 list.add(String.valueOf(i));
             }
@@ -223,5 +225,22 @@ public class MenuActivity extends AppCompatActivity {
            Snackbar.make(_parent,"Oooops ! Terjadi Kesalahan.", Snackbar.LENGTH_LONG).show();
        }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.cart:
+                startActivity(new Intent(getApplicationContext(), BillActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

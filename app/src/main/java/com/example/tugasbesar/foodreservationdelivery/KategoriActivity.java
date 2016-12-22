@@ -127,8 +127,8 @@ public class KategoriActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case R.id.logout:
-                session.logoutUser();
+            case R.id.cart:
+                startActivity(new Intent(getApplicationContext(), BillActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

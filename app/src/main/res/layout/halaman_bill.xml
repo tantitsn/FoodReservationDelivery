@@ -1,95 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.PopupOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvOrder"
-            android:layout_width="match_parent"
-            android:layout_height="430dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="2dp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/txtsub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/rvOrder"
-            android:weightSum="2">
+            android:orientation="vertical">
 
-            <TextView
-                android:text="TOTAL"
-                android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="20sp"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:paddingBottom="5dp"
+                android:paddingTop="2dp" />
 
-            <TextView
-                android:id="@+id/txt_subtotal"
-                android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="Rp. 500.000"
+            <LinearLayout
+                android:id="@+id/txtsubqty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Jumlah Pesanan"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/txtsub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Total Bayar"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:weightSum="2">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/tutup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:padding="10dp"
+                    android:text="TUTUP"
+                    android:textColor="@color/another_text" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/pesan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:padding="10dp"
+                    android:text="PESAN"
+                    android:textColor="@color/another_text" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_below="@id/txtsub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:weightSum="2">
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/tutup"
-                android:text="TUTUP"
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/pesan"
-                android:text="PESAN"
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+    </ScrollView>
+</RelativeLayout>

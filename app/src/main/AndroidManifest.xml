@@ -38,11 +38,9 @@
         </activity>
 
         <activity android:name=".BillActivity"
-            android:label="@string/pemesanan">
+            android:label="@string/pemesanan"
+            android:theme="@style/mytheme">
 
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
     </application>
 

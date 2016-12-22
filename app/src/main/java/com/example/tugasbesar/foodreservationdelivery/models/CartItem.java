@@ -11,6 +11,8 @@ public class CartItem {
     private String gambar_produk;
     private String qty;
     private String subtotal;
+    private String status_pesan;
+    private String status;
 
     public String getId_produk() {
         return id_produk;
@@ -59,4 +61,19 @@ public class CartItem {
         this.subtotal = subtotal;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus_pesan() {
+        return status_pesan;
+    }
+
+    public void setStatus_pesan(String status_pesan) {
+        this.status_pesan = status_pesan;
+    }
 }
