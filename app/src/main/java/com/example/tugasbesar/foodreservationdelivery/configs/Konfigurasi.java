@@ -18,4 +18,7 @@ public class Konfigurasi {
     public static final String DELETE_TEMP = URL_API + "delete_temp.php";
     public static final String GET_TOTAL_CART = URL_API + "get_cart.php";
     public static final String SAVE_PESANAN = URL_API + "save_pesanan.php";
+    public static final String BROADCAST_URL = URL_API + "broadcast_message.php";
+    public static final String GET_MEJA = URL_API + "get_meja.php";
+    public static final String TOKEN_REGISTER_URL = URL_API + "register_token.php";
 }

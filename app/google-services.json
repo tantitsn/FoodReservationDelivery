@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "545271792653",
+    "firebase_url": "https://food-reservation.firebaseio.com",
+    "project_id": "food-reservation",
+    "storage_bucket": "food-reservation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545271792653:android:fdf2215c671a1346",
+        "android_client_info": {
+          "package_name": "com.example.tugasbesar.foodreservationdelivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545271792653-o1puhiiaj9s46m3t2p1p2lnbg6rjvk9a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS-5DtfcEkVz6NwAxXVh2bZXjWtAKozho"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

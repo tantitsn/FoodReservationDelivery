@@ -1,6 +1,7 @@
 package com.example.tugasbesar.foodreservationdelivery;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,12 +9,14 @@ import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -25,11 +28,17 @@ import com.example.tugasbesar.foodreservationdelivery.configs.SessionManagement;
 import com.example.tugasbesar.foodreservationdelivery.interfaces.KategoriAPI;
 import com.example.tugasbesar.foodreservationdelivery.models.KategoriItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,11 +133,85 @@ public class KategoriActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         int id = item.getItemId();
         switch (id){
             case R.id.cart:
                 startActivity(new Intent(getApplicationContext(), BillActivity.class));
+                break;
+
+            case R.id.logout:
+                session.logoutUser();
+                break;
+
+            case R.id.call:
+                LayoutInflater li = LayoutInflater.from(getApplicationContext());
+                View promptsView = li.inflate(R.layout.bc_prompt, null);
+
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                        new ContextThemeWrapper(this, R.style.mytheme));
+                alertDialogBuilder.setView(promptsView);
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.txtBroadcast);
+
+                // set dialog message Tolak
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        ProgressDialog pDialog;
+                                        pDialog = new ProgressDialog(KategoriActivity.this);
+                                        pDialog.setTitle("Menyampaikan Pesan");
+                                        pDialog.setMessage("Mohon Tunggu ......");
+                                        pDialog.setCancelable(false);
+                                        pDialog.show();
+
+
+                                        String pesan = userInput.getText().toString();
+                                        HashMap<String, String> user = session.getUserDetails();
+                                        String meja = user.get(SessionManagement.KEY_MEJA);
+
+                                        if(pesan.equals("")){
+                                            Toast.makeText(getApplicationContext(), "Silahkan Isi Pesan yg akan disampaikan.", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                            pDialog.dismiss();
+                                        }else{
+
+                                            OkHttpClient client = new OkHttpClient();
+
+                                            RequestBody body = new FormBody.Builder()
+                                                    .add("pesan", pesan)
+                                                    .add("meja", meja)
+                                                    .build();
+
+                                            Request request = new Request.Builder()
+                                                    .url(Konfigurasi.BROADCAST_URL)
+                                                    .post(body)
+                                                    .build();
+
+                                            try {
+                                                client.newCall(request).execute();
+                                                dialog.cancel();
+                                                pDialog.dismiss();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                // create alert dialog
+                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
                 break;
         }
         return super.onOptionsItemSelected(item);

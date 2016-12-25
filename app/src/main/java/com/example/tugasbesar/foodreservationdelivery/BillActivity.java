@@ -124,22 +124,26 @@ public class BillActivity extends AppCompatActivity{
             call.enqueue(new Callback<JSONCart>() {
                 @Override
                 public void onResponse(Call<JSONCart> call, Response<JSONCart> response) {
-                    if (response.isSuccessful()){
-                        JSONCart jsonCart = response.body();
-                        items = new ArrayList<>(Arrays.asList(jsonCart.getPosts()));
-                        _rvOrder.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        CartRecyclerAdapter adapter = new CartRecyclerAdapter(getApplicationContext(),items);
-                        _rvOrder.setAdapter(adapter);
+                    if(response.errorBody() != null) {
+                        if (response.isSuccessful()) {
+                            JSONCart jsonCart = response.body();
+                            items = new ArrayList<>(Arrays.asList(jsonCart.getPosts()));
+                            _rvOrder.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            CartRecyclerAdapter adapter = new CartRecyclerAdapter(getApplicationContext(), items);
+                            _rvOrder.setAdapter(adapter);
 
-                        new GetTotalBelanja().execute(meja);
+                            new GetTotalBelanja().execute(meja);
+                        } else {
+                            Toast.makeText(BillActivity.this, "Oops! Terjadi Kesalahan.", Toast.LENGTH_SHORT).show();
+                        }
                     }else{
-                        Toast.makeText(BillActivity.this, "Oops! Terjadi Kesalahan.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BillActivity.this, "Tidak Ada Data...", Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JSONCart> call, Throwable t) {
-                    Toast.makeText(BillActivity.this, "Oops! Terjadi Kesalahan.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BillActivity.this, "...", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -174,7 +178,10 @@ public class BillActivity extends AppCompatActivity{
                         _qty.setText(object.getString("tqty"));
                         _total.setText("Rp. " + object.getString("ttot"));
 
-                        if(object.getString("status").equals("1") || object.getString("status_pesan").equals("0")){
+                        if(object.getString("status_pesan").equals("0")){
+                            _pesan.setVisibility(View.VISIBLE);
+                            _pesan.setClickable(true);
+                        }else{
                             _pesan.setVisibility(View.INVISIBLE);
                             _pesan.setClickable(false);
                         }

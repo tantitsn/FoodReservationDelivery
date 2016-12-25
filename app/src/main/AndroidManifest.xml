@@ -42,6 +42,22 @@
             android:theme="@style/mytheme">
 
         </activity>
+
+        <!--Firebase Messaging Service-->
+        <service android:name=".configs.FirebaseMessagingService">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".configs.FirebaseInstanceIDService">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!--                        -->
     </application>
 
 </manifest>

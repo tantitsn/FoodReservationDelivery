@@ -3,6 +3,7 @@ package com.example.tugasbesar.foodreservationdelivery;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -239,6 +242,80 @@ public class MenuActivity extends AppCompatActivity {
         switch (id){
             case R.id.cart:
                 startActivity(new Intent(getApplicationContext(), BillActivity.class));
+                break;
+
+            case R.id.logout:
+                session.logoutUser();
+                break;
+
+            case R.id.call:
+                LayoutInflater li = LayoutInflater.from(getApplicationContext());
+                View promptsView = li.inflate(R.layout.bc_prompt, null);
+
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                        new ContextThemeWrapper(this, R.style.mytheme));
+                alertDialogBuilder.setView(promptsView);
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.txtBroadcast);
+
+                // set dialog message Tolak
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        ProgressDialog pDialog;
+                                        pDialog = new ProgressDialog(MenuActivity.this);
+                                        pDialog.setTitle("Menyampaikan Pesan");
+                                        pDialog.setMessage("Mohon Tunggu ......");
+                                        pDialog.setCancelable(false);
+                                        pDialog.show();
+
+
+                                        String pesan = userInput.getText().toString();
+                                        HashMap<String, String> user = session.getUserDetails();
+                                        String meja = user.get(SessionManagement.KEY_MEJA);
+
+                                        if(pesan.equals("")){
+                                            Toast.makeText(getApplicationContext(), "Silahkan Isi Pesan yg akan disampaikan.", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                            pDialog.dismiss();
+                                        }else{
+
+                                            OkHttpClient client = new OkHttpClient();
+
+                                            RequestBody body = new FormBody.Builder()
+                                                    .add("pesan", pesan)
+                                                    .add("meja", meja)
+                                                    .build();
+
+                                            Request request = new Request.Builder()
+                                                    .url(Konfigurasi.BROADCAST_URL)
+                                                    .post(body)
+                                                    .build();
+
+                                            try {
+                                                client.newCall(request).execute();
+                                                dialog.cancel();
+                                                pDialog.dismiss();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                // create alert dialog
+                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
                 break;
         }
         return super.onOptionsItemSelected(item);
